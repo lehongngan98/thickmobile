@@ -45,6 +45,17 @@ export default function Home() {
       });
   }, []);
 
+  //delete item hightlight
+  const onDelete = (id) =>{
+    fetch(`https://6561fb1edcd355c083246fec.mockapi.io/courseInspires/${id}`,{
+      method: 'DELETE',
+    })
+    .then(() => {
+      sethightlight(hightlight.filter((item) => item.id !== id));
+    })
+    
+  }
+
 
   return (
     <>
@@ -121,7 +132,7 @@ export default function Home() {
               {hightlight.map((item) => {
                 return (
                   <View style={{ marginBottom: 20 }} key={item.id}>
-                    <TouchableOpacity
+                    <View                                    
                       style={{
                         padding: 5,
                         borderWidth: 0.2,
@@ -168,12 +179,19 @@ export default function Home() {
                           {item.author}
                         </Text>
                       </View>
-                    </TouchableOpacity>
+                    </View>
                     <View style={{ marginLeft: 10 }}>
                       <Text style={{ fontWeight: 600, color: "gray" }}>
                         {item.time}
                       </Text>
                     </View>
+
+                    {/* button delete item hightlight*/}
+                    <Pressable onPress={() => onDelete(item.id)} style={{marginLeft:300,alignSelf:'flex-end',top:-50,right:10}}                    
+                    >
+                      <AntDesign name="delete" size={24} color="black" />
+                    </Pressable>
+                    
                   </View>
                 );
               })}
